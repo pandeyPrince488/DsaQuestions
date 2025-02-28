@@ -1,0 +1,60 @@
+class Solution {
+public:
+vector<int>getNsl(vector<int>& arr,int n)
+{
+    vector<int>result(n,-1);
+    stack<int>st;
+    for(int i=0;i<n;i++)
+    {
+        while(!st.empty()&&arr[st.top()]>arr[i])
+        st.pop();
+
+        if(!st.empty())
+        {
+            result[i]=st.top();
+        }
+        st.push(i);
+    }
+    return result;
+}
+
+vector<int>getNsr(vector<int>& arr,int n)
+{
+    vector<int>result(n,n);
+    stack<int>st;
+    for(int i=n-1;i>=0;i--)
+    {
+        while(!st.empty()&&arr[st.top()]>=arr[i])
+        st.pop();
+
+        if(!st.empty())
+        {
+            result[i]=st.top();
+        }
+        st.push(i);
+    }
+    return result;
+}
+
+    int sumSubarrayMins(vector<int>& arr) {
+        int n=arr.size();
+
+        vector<int>nsl=getNsl(arr,n);
+        vector<int>nsr=getNsr(arr,n);
+        
+        long long totalSum=0;
+        int mod=1e9+7;
+        
+        for(int i=0;i<n;i++)
+        {
+            int nl=i-nsl[i];
+            int nr=nsr[i]-i;
+            long long totalWays=nl*nr;
+
+            long long sum=totalWays*arr[i];
+
+            totalSum=(totalSum+sum)%mod;
+        }
+        return totalSum;
+    }
+};
