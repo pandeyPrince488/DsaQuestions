@@ -1,0 +1,57 @@
+public:
+  int merge(vector<int>&arr,int left,int mid,int right)
+  {
+      int leftLength=mid-left+1;
+      int rightLength=right-mid;
+      vector<int>leftArr(leftLength);
+      vector<int>rightArr(rightLength);
+      
+      
+      for(int i=0;i<leftLength;i++)
+      {
+          leftArr[i]=arr[left+i];
+      }
+      for(int i=0;i<rightLength;i++)
+      {
+          rightArr[i]=arr[mid+1+i];
+      }
+      int i=0;
+      int j=0;
+      int k=left;
+      int inversionCount=0;
+      while(i<leftLength&&j<rightLength)
+      {
+          if(leftArr[i]<=rightArr[j])
+          {
+              arr[k++]=leftArr[i++];
+          }
+          else{
+              arr[k++]=rightArr[j++];
+              inversionCount+=(leftLength-i);
+          }
+      }
+      while(i<leftLength)
+      {
+          arr[k++]=leftArr[i++];
+      }
+      while(j<rightLength)
+      {
+          arr[k++]=rightArr[j++];
+      }
+      return inversionCount;
+  }
+int mergeSort(vector<int>&arr,int left,int right)
+{
+    if(left>=right)
+    {
+        return 0;
+    }
+    int mid=left+(right-left)/2;
+    int leftCount=mergeSort(arr,left,mid);
+    int rightCount=mergeSort(arr,mid+1,right);
+    int mergeCount=merge(arr,left,mid,right);
+    return leftCount+rightCount+mergeCount;
+}
+    int inversionCount(vector<int> &arr) {
+        return mergeSort(arr,0,arr.size()-1);
+    }
