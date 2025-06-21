@@ -1,0 +1,38 @@
+class Solution {
+public:
+bool isSplitPossible(vector<int>& nums, int k,int currentSplitLimit)
+{
+    int splitsCount=1;
+    int cummulativeSum=0;
+    for(int i=0;i<nums.size();i++)
+    {
+        if((cummulativeSum+nums[i])<=currentSplitLimit)
+        {
+            cummulativeSum+=nums[i];   
+        }
+        else{
+            splitsCount++;
+            cummulativeSum=nums[i];
+        }
+    }
+    return splitsCount<=k;
+}
+    int splitArray(vector<int>& nums, int k) {
+        int start=*max_element(nums.begin(),nums.end());
+        int end=accumulate(nums.begin(),nums.end(),0);
+        int result=end;
+        while(start<=end)
+        {
+            int mid=start+(end-start)/2;
+            if(isSplitPossible(nums,k,mid))
+            {
+                result=mid;
+                end=mid-1;
+            }
+            else{
+                start=mid+1;
+            }
+        }
+        return result;
+    }
+};
