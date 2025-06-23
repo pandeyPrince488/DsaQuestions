@@ -1,0 +1,31 @@
+class Solution {
+  public:
+
+int stationsRequired(vector<int>& stations, double dist) {
+    int count = 0;
+    for (int i = 0; i < stations.size() - 1; i++) {
+        double gap = stations[i + 1] - stations[i];
+        count += int(gap / dist);  // how many stations needed in this gap
+    }
+    return count;
+}
+
+double findSmallestMaxDist(vector<int>& stations, int k) {
+    double low = 0.0;
+    double high = stations.back() - stations.front(); // max possible distance
+    double eps = 1e-6; // precision
+
+    while (high - low > eps) {
+        double mid = (low + high) / 2.0;
+        int required = stationsRequired(stations, mid);
+
+        if (required > k) {
+            low = mid;  // we need more stations → distance is too small
+        } else {
+            high = mid; // valid solution → try smaller
+        }
+    }
+
+    return high;
+}
+};
