@@ -1,31 +1,82 @@
+//Brute Force 
+time Complexity=(n*k)
+space Complexity=(n-1)
+double findSmallestMaxDist(vector<int> &stations, int k) {
+        int n=stations.size();
+        vector<int>howMany(n-1,0);
+        for(int gasStation=1;gasStation<=k;gasStation++)
+        {
+            long double maxSection=-1;
+            long double maxSectionIndex=-1;
+            for(int i=0;i<n-1;i++)
+            {
+                long double currentDiffrence=stations[i+1]-stations[i];
+                long double sectionLength=currentDiffrence/(howMany[i]+1);
+                if(sectionLength>maxSection)
+                {
+                    maxSection=sectionLength;
+                    maxSectionIndex=i;
+                }
+            }
+            howMany[maxSectionIndex]++;
+        }
+        long double result=-1;
+        for(int i=0;i<n-1;i++)
+        {
+           long double currentDiffrence=stations[i+1]-stations[i];
+           long double sectionLength=currentDiffrence/(howMany[i]+1);
+           
+           result=max(result,sectionLength);
+        }
+        return result;
+    }
+
+
+
+
+
+Optimal Binary search one 
+
+
+
+
+
+
+
 class Solution {
   public:
-
-int stationsRequired(vector<int>& stations, double dist) {
-    int count = 0;
-    for (int i = 0; i < stations.size() - 1; i++) {
-        double gap = stations[i + 1] - stations[i];
-        count += int(gap / dist);  // how many stations needed in this gap
-    }
-    return count;
-}
-
-double findSmallestMaxDist(vector<int>& stations, int k) {
-    double low = 0.0;
-    double high = stations.back() - stations.front(); // max possible distance
-    double eps = 1e-6; // precision
-
-    while (high - low > eps) {
-        double mid = (low + high) / 2.0;
-        int required = stationsRequired(stations, mid);
-
-        if (required > k) {
-            low = mid;  // we need more stations → distance is too small
-        } else {
-            high = mid; // valid solution → try smaller
+  bool checkMinimumStationNeeded(vector<int> &stations, int k, double maxDist )
+ {
+     int gasStationNeeded=0;
+     for(int i=0;i<stations.size()-1;i++)
+     {
+         double diffrence=stations[i+1]-stations[i];
+         gasStationNeeded+=int(diffrence/maxDist);
+    
+     }
+     return gasStationNeeded<=k;
+  }
+    double findSmallestMaxDist(vector<int> &stations, int k) {
+        double start=0;
+        double end =0;
+        for(int i=0;i<stations.size()-1;i++)
+        {
+           end=max(end,(double)stations[i+1]-stations[i]) ;
         }
-    }
+        double limit=1e-6;
+        while((end-start)>limit)
+        {
+            double mid=start+(end-start)/2.0;
+            bool isPossible=checkMinimumStationNeeded(stations,k,mid);
+            if(isPossible)
+            {
+                end =mid;
+            }
+            else{
+                start=mid;
+            }
+        }
+      return floor(end * 100.0 + 0.5) / 100.0;
 
-    return high;
-}
+    }
 };
