@@ -1,0 +1,34 @@
+??Brute force Solution having 
+Time Complexity=(m+n)
+space Complexity=(m+n)
+
+
+code:-
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int m=nums1.size();
+        int n=nums2.size();
+        vector<int>result(m+n);
+        int i=0,j=0,k=0;
+        while(i<m && j<n)
+        {
+            if(nums1[i]<nums2[j])
+            {
+               result[k++]=nums1[i++]; 
+            }
+            else{
+                result[k++]=nums2[j++];
+            }
+        }
+        while(i<m)
+        {
+            result[k++]=nums1[i++];    
+        }
+        while(j<n)
+        {
+            result[k++]=nums2[j++];
+        }
+        return (k%2==1)?result[k/2]:(result[k/2]+(result[k/2-1]))/2.0;
+    }
+};
