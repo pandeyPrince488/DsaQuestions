@@ -1,0 +1,30 @@
+Main Logic (in 2–3 lines):
+We keep a counter depthCount to track the current depth of parentheses.
+We skip appending the outermost '(' and ')' by only adding characters when the depth is more than 0 before '(' and after ')'.
+
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        string result="";
+        int depthCount=0;
+        for(char ch:s)
+        {
+            if(ch=='(')
+            {
+                if(depthCount>0)
+                {
+                    result+=ch;
+                }
+                depthCount++;
+            }
+            else{
+                depthCount--;
+                if(depthCount>0)
+                {
+                    result+=ch;
+                }
+            }
+        }
+        return result;
+    }
+};
