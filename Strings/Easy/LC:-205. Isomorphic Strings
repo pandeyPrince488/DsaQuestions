@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string normalise(string& str) { 
+        unordered_map<char,char>mp;
+        char nextChar='a';
+        string result="";
+        for(char ch:str)
+        {
+            if(!mp.count(ch))
+            {
+                mp[ch]=nextChar++;
+            }
+            result+=mp[ch];
+        }
+        return result;
+    }
+    bool isIsomorphic(string s, string t) {
+        return normalise(s) == normalise(t);
+    }
+};
