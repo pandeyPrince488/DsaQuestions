@@ -1,0 +1,26 @@
+class Solution {
+public:
+int  expandAroundCenter(string s,int i,int j)
+{
+    int count=0;
+    while(i>=0 &&j<s.length()&&s[i]==s[j])
+    {
+        count++;
+        i--;
+        j++;
+    }
+    return count;
+}
+    int countSubstrings(string s) {
+        int totalCount=0;
+        for(int center=0;center<s.length();center++)
+        {
+            int oddCount=expandAroundCenter(s,center,center);
+
+            int evenCount=expandAroundCenter(s,center,center+1);
+
+            totalCount+=(oddCount+evenCount);
+        }
+        return totalCount;
+    }
+};
