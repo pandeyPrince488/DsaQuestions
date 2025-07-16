@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+int expandAroundCenter(string s, int i,int j)
+{
+    while(i>=0 && j<s.length() && s[i]==s[j])
+    {
+        i--;
+        j++;
+    }
+    return j-i-1;
+}
+    string longestPalindrome(string s) {
+        int maxLength=0;
+        int start=0;
+
+        for(int center=0;center<s.length();center++)
+        {
+            int oddLength=expandAroundCenter(s,center,center);
+
+            int evenLength=expandAroundCenter(s,center,center+1);
+
+            int currLength=max(oddLength,evenLength);
+
+            if(currLength>maxLength)
+            {
+                maxLength=currLength;
+                start=center-(currLength-1)/2;
+            }
+        }
+        return s.substr(start,maxLength);
+    }
+};
