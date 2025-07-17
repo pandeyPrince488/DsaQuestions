@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int beautySum(string s) {
+        int totalBeautySum=0;
+        for(int i=0;i<s.length();i++)
+        {
+            unordered_map<char,int>mp;
+            for(int j=i;j<s.length();j++)
+            {
+                mp[s[j]]++;
+                int maxElement=INT_MIN;
+                int minElement=INT_MAX;
+                for(auto it:mp)
+                {
+                    maxElement=max(maxElement,it.second);
+                    minElement=min(minElement,it.second);
+                }
+                totalBeautySum+=(maxElement-minElement);
+            }
+        }
+        return totalBeautySum;
+    }
+};
