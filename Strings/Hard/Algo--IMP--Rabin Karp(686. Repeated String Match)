@@ -1,0 +1,65 @@
+class Solution {
+public:
+int base=1000000;
+int mod=1e9+7;
+
+    int repeatedStringMatch(string a, string b) {
+        string source=a;
+        string  destination=b;
+
+        int count=1;
+        while(source.size()<destination.size())
+        {
+            source+=a;
+            count++;
+        }
+
+        //for safety add another as 
+        source+=a;
+        
+
+        vector<long long>power(b.length());
+        power[0]=1;
+        for(int i=1;i<b.length();i++)
+        {
+            power[i]=(power[i-1]*base)%mod;
+        }
+
+        long long hashB=0;
+        for(int i=0;i<b.length();i++)
+        {
+            int charValue=b[i]-'a'+1;
+            hashB=(hashB+(charValue*power[i])%mod)%mod;
+        }
+
+        for(int i=0;i<source.length()-b.length();i++)
+        {
+            long long currentValue=0;
+            for(int j=0;j<b.length();j++)
+            {
+                int charValue=source[i+j]-'a'+1;
+                currentValue=(currentValue+(charValue*power[j])%mod)%mod;
+            }
+            if(currentValue==hashB)
+            {
+                bool isExact=true;
+                for(int j=0;j<b.size();j++)
+                {
+                    if(b[j]!=source[i+j])
+                    {
+                       isExact=false;
+                       break; 
+                    }
+                }
+            
+            if(isExact==true)
+            {
+            int totalLength=i+b.size();
+            int totalAdded=(totalLength+(a.size()-1))/a.size();
+            return totalAdded;
+            }
+            }
+        }
+        return -1;
+    }
+};
