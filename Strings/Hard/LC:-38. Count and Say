@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string countAndSay(int n) {
+        if(n==1)
+        {
+            return "1";
+        }
+        string prevCount=countAndSay(n-1);
+        
+        string result="";
+        char currChar=prevCount[0];
+        int currCharCount=1;
+
+        for(int i=1;i<prevCount.size();i++)
+        {
+            if(prevCount[i]==currChar)
+            {
+                currCharCount++;
+            }
+            else{
+            result+=to_string(currCharCount)+currChar;
+            currChar=prevCount[i];
+            currCharCount=1;
+            }
+        }
+        result+=to_string(currCharCount)+currChar;
+        return result;
+    }
+};
