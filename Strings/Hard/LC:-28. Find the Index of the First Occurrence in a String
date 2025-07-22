@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int base = 1000000;
+    int mod = 1e9 + 7;
+    int strStr(string haystack, string needle) {
+        if (needle.size() > haystack.size()) return -1;
+
+        vector<long long> power(needle.length());
+        power[0] = 1;
+        for (int i = 1; i < needle.length(); i++) {
+            power[i] = (power[i - 1] * base) % mod;
+        }
+
+        long long needleHash = 0;
+        for (int i = 0; i < needle.length(); i++) {
+            int charValue = needle[i] - 'a' + 1;
+            needleHash = (needleHash + (charValue * power[i]) % mod) % mod;
+        }
+
+        for (int i = 0; i <=haystack.length() - needle.length(); i++) {
+            long long windowValue = 0;
+            for (int j = 0; j < needle.length(); j++) {
+                int charValue = haystack[i + j] - 'a' + 1;
+                windowValue =(windowValue + (charValue * power[j]) % mod) % mod;
+            }
+            if (windowValue == needleHash) {
+                bool isExact = true;
+                for (int j = 0; j < needle.length(); j++) {
+                    if (haystack[i + j] != needle[j]) {
+                        isExact = false;
+                        break;
+                    }
+                }
+                 if (isExact == true) {
+                return i;
+            }
+            }
+        }
+        return -1;
+    }
+};
