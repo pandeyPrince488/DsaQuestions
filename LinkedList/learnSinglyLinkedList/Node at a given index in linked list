@@ -1,0 +1,27 @@
+class Solution {
+  public:
+  int countLinks(Node *head)
+  {
+      Node* temp=head;
+      int count=0;
+      while(temp!=NULL)
+      {
+          count++;
+          temp=temp->next;
+      }
+      return count;
+  }
+    int GetNth(Node *head, int index) {
+        int totalNodes=countLinks(head);
+        if(totalNodes<index|| index <= 0)
+        {
+            return -1;
+        }
+        Node* tempNode=head;
+        for(int i=1;i<index;i++)
+        {
+            tempNode=tempNode->next;
+        }
+        return tempNode->data;
+    }
+};
