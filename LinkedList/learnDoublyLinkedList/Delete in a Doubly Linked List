@@ -1,0 +1,55 @@
+/* Structure of Node
+class Node {
+  public:
+    int data;
+    Node *next;
+    Node *prev;
+
+    Node(int val) {
+        data = val;
+        this->next = NULL;
+        this->prev = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    // Function to delete a node at given position.
+    Node* deleteNode(Node* head, int x) {
+    if (x == 1) {
+        Node* temp = head;
+        head = head->next;
+        if (head != NULL) {
+            head->prev = NULL;  // Update the previous pointer of the new head
+        }
+        delete temp;  // Delete the old head
+        return head;
+    }
+    Node*temp=head;
+    for(int i=1;i<x-1;i++)
+    {
+        temp=temp->next;
+    }
+    
+    if (temp == NULL || temp->next == NULL) {
+        return head;  // If the node to delete doesn't exist
+    }
+    
+    Node* prevNode = temp;
+    Node* currNode = temp->next;
+    Node* nextNode = currNode->next;
+    if(nextNode!=NULL)
+    {
+        nextNode->prev=prevNode;
+    }
+    prevNode->next=nextNode;
+    if(currNode->next==NULL)
+    {
+        prevNode->next=NULL;
+    }
+    delete currNode;
+    return head;
+    }
+    
+};
