@@ -1,0 +1,47 @@
+//brute force solution for this problem this also solve this into 
+Time complexity :-O(n)  
+but we need to run this into two diffrent passes 
+1st pass for calculating the length of whole list 
+another pass for reach n-1 th Node to delete it
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int calculateLength(ListNode* head) {
+        int count = 0;
+        ListNode* temp = head;
+        while (temp != NULL) {
+            count++;
+            temp = temp->next;
+        }
+        return count;
+    }
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int wholeLength=calculateLength(head);
+        if (wholeLength == n) {
+            ListNode* temp = head;
+            head = head->next;
+            delete temp;
+            return head;
+        }
+        ListNode* prev=head;
+        for(int i=0;i<wholeLength-n-1;i++)
+        {
+            prev=prev->next;
+        }
+        ListNode* currNode=prev->next;
+        ListNode* nextNode=currNode->next;
+        prev->next=nextNode;
+        delete currNode;
+        return head;
+    }
+};
