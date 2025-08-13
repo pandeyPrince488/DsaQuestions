@@ -45,3 +45,50 @@ public:
         return head;
     }
 };
+
+//optimal approach of this problem 
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+         ListNode* fast=head;
+          ListNode* slow=head;
+
+          for(int i=0;i<n;i++)
+          {
+            fast=fast->next;
+          }
+
+          if(fast==NULL)
+          {
+             ListNode* temp=head;
+             head=head->next;
+             delete temp;
+             return head;
+          }
+          while(fast->next!=NULL)
+          {
+            slow=slow->next;
+            fast=fast->next;
+          }
+           ListNode* currNode=slow->next;
+           ListNode* nextNode=currNode->next;
+           slow->next=nextNode;
+           delete currNode;
+           return head;
+    }
+};
+
+steps-
+Take two pointer and advance one with n times and then runs a loop while the advance one reaches the end node we procress both of them 
+when it reaches the end the second pointer is on the nth-1 place and we can delete it
