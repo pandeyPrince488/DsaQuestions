@@ -1,0 +1,71 @@
+/*  Node is defined as
+  struct Node {
+    int data;
+    struct Node *next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};*/
+class Solution {
+  public:
+    Node* segregate(Node* head) {
+        Node* zeroHead=NULL;
+        Node* oneHead=NULL;
+        Node* twoHead=NULL;
+        
+        Node* zeroTail=NULL;
+        Node* oneTail=NULL;
+        Node* twoTail=NULL;
+        
+        Node* curr=head;
+        
+        while(curr)
+        {
+            if(curr->data==0)
+            {
+                if(zeroHead==NULL)
+                {
+                    zeroHead=curr;
+                    zeroTail=curr;
+                }
+                else{
+                    zeroTail->next=curr;
+                    zeroTail=curr;
+                }
+            }
+            else if(curr->data==1)
+            {
+                if(oneHead==NULL)
+                {
+                    oneHead=curr;
+                    oneTail=curr;
+                }
+                else{
+                    oneTail->next=curr;
+                    oneTail=curr;
+                }
+            }
+            else{
+                if(twoHead==NULL)
+                {
+                    twoHead=curr;
+                    twoTail=curr;
+                }
+                else{
+                    twoTail->next=curr;
+                    twoTail=curr;
+                }
+            }
+            curr=curr->next;
+        }
+        
+        if(zeroTail)zeroTail->next=oneHead?oneHead:twoHead;
+        if(oneTail)oneTail->next=twoHead;
+        if(twoTail) twoTail->next=NULL;
+        
+        if(zeroHead)return zeroHead;
+        else if(oneHead)return oneHead;
+        else return twoHead;
+    }
+};
