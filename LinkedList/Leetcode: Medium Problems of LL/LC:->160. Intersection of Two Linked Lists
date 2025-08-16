@@ -1,0 +1,35 @@
+//Brute force 
+approach 1- this approach consist of a map so while traversing the linkedlistone we insert node and its value into the map 
+and then while traversing the second linked list if  we find the value we return it immediately else we keep iterating we 
+the condition is never true then return the NULL
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        unordered_map<ListNode*,int>mp;
+        ListNode* curr=headA;
+        while(curr!=NULL)
+        {
+            mp.insert({curr,curr->val});
+            curr=curr->next;
+        }
+        ListNode* scurr=headB;
+        while(scurr!=NULL)
+        {
+            if(mp.find(scurr)!=mp.end())
+            {
+                return scurr;
+            }
+            scurr=scurr->next;
+        }
+        return NULL;
+    }
+};
