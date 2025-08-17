@@ -1,0 +1,62 @@
+/*
+
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+
+*/
+
+class Solution {
+  public:
+    Node* addOne(Node* head) {
+        
+        Node* prev=NULL;
+        Node* curr=head;
+        while(curr!=NULL)
+        {
+            Node* nextNode=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=nextNode;
+        }
+        int sum=prev->data+1;
+        prev->data=sum%10;
+        int carry=sum/10;
+        
+        
+        Node* currNode=prev;
+        while(currNode!=NULL &&carry>0)
+        {
+            if(currNode->next==NULL && carry>0)
+            {
+                Node* newNode=new Node(carry);
+                currNode->next=newNode;
+                carry=0;
+            }
+            else{
+                currNode=currNode->next;
+                int sum=currNode->data+carry;
+                currNode->data=sum%10;
+                carry=sum/10;
+            }
+        }
+         Node* revHead = NULL;
+        curr = prev;
+        while (curr != NULL) {
+            Node* nextNode = curr->next;
+            curr->next = revHead;
+            revHead = curr;
+            curr = nextNode;
+        }
+
+        return revHead;
+        
+    }
+};
